@@ -1,0 +1,12 @@
+{
+  "version": "0.15.2",
+  "release": true,
+  "pyinstaller_download_url": "https://github.com/geanferreira96/simple-monday-mirror/releases/download/0.15.2/SimpleMonday.zip",
+  "nuitka_download_url": "",
+  "compiler": "pyinstaller",
+  "beta_users": [],
+  "pyinstaller_sha256": "",
+  "nuitka_sha256": "",
+  "github_release": "https://github.com/geanferreira96/simple-monday-mirror/releases/latest",
+  "updated_at": "2026-07-06T00:00:00Z"
+}

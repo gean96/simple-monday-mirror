@@ -576,27 +576,15 @@
 
             <div class="download-platforms">
                 <!-- Android -->
-                <a href="#" class="platform-card">
+                <a href="https://play.google.com/store/apps/details?id=com.gfsolutions.simplemonday" class="platform-card">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 14h14M12 5v14M8 5a4 4 0 0 1 8 0v2H8V5z"/></svg>
-                    <span>Android (APK)</span>
+                    <span>Google Play</span>
                 </a>
-                
+
                 <!-- Windows -->
-                <a href="#" class="platform-card">
+                <a href="#" id="windows-download-link" class="platform-card">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
                     <span>Windows App</span>
-                </a>
-
-                <!-- macOS -->
-                <a href="#" class="platform-card">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10h-10V2z"/></svg>
-                    <span>macOS App</span>
-                </a>
-
-                <!-- Web Version -->
-                <a href="#" class="platform-card">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
-                    <span>Versão Web</span>
                 </a>
             </div>
         </div>
@@ -617,5 +605,18 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('update.json')
+                .then(function (response) { return response.json(); })
+                .then(function (data) {
+                    var link = document.getElementById('windows-download-link');
+                    if (link && data.pyinstaller_download_url) {
+                        link.href = data.pyinstaller_download_url;
+                    }
+                })
+                .catch(function () { });
+        });
+    </script>
 </body>
 </html>
