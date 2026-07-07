@@ -388,11 +388,22 @@
             gap: 1rem;
         }
 
-        .platform-card svg {
+        .platform-card svg,
+        .platform-card img {
             width: 40px;
             height: 40px;
             color: var(--text-muted);
             transition: var(--transition-smooth);
+        }
+
+        .platform-card img {
+            object-fit: contain;
+        }
+
+        .platform-card img.play-store-badge {
+            width: auto;
+            height: 48px;
+            max-width: 160px;
         }
 
         .platform-card span {
@@ -408,6 +419,10 @@
 
         .platform-card:hover svg {
             color: var(--accent-primary);
+            transform: scale(1.1);
+        }
+
+        .platform-card:hover img {
             transform: scale(1.1);
         }
 
@@ -577,7 +592,7 @@
             <div class="download-platforms">
                 <!-- Android -->
                 <a href="https://play.google.com/store/apps/details?id=com.gfsolutions.simplemonday" class="platform-card">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 14h14M12 5v14M8 5a4 4 0 0 1 8 0v2H8V5z"/></svg>
+                    <img src="Google_Play_logo_PNG1.png" alt="Disponível no Google Play" class="play-store-badge">
                     <span>Google Play</span>
                 </a>
 
