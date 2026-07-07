@@ -412,10 +412,30 @@
             object-fit: contain;
         }
 
-        .platform-card img.play-store-badge {
+        .platform-card img.play-store-badge,
+        .platform-card img.windows-badge {
             width: auto;
             height: 48px;
-            max-width: 160px;
+            max-width: 180px;
+        }
+
+        .download-note {
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .download-note a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .download-note a:hover {
+            text-decoration: underline;
         }
 
         .platform-card span {
@@ -510,6 +530,7 @@
             <ul class="nav-links">
                 <li><a href="#features">Recursos</a></li>
                 <li><a href="#seguranca">Segurança</a></li>
+                <li><a href="changelog.html">Changelog</a></li>
                 <li><a href="#download">Baixar</a></li>
             </ul>
             <a href="#download" class="btn-header">Obter App</a>
@@ -609,18 +630,29 @@
             <div class="section-header">
                 <h2>Disponível para Todo Ecossistema</h2>
                 <p>Seja no computador ou no celular, leve o Simple Monday sempre com você.</p>
+                <p class="download-note">
+                    O app na Play Store está em teste fechado.
+                    <a href="https://groups.google.com/g/simplemonday" target="_blank" rel="noopener noreferrer">Entre no grupo Google</a>
+                    para receber acesso e baixar no Android.
+                </p>
             </div>
 
             <div class="download-platforms">
+                <!-- Google Group (teste Play Store) -->
+                <a href="https://groups.google.com/g/simplemonday" target="_blank" rel="noopener noreferrer" class="platform-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Entrar no grupo</span>
+                </a>
+
                 <!-- Android -->
-                <a href="https://play.google.com/store/apps/details?id=com.gfsolutions.simplemonday" class="platform-card">
+                <a href="https://play.google.com/store/apps/details?id=com.gfsolutions.simplemonday" target="_blank" rel="noopener noreferrer" class="platform-card">
                     <img src="Google_Play_logo_PNG1.png" alt="Disponível no Google Play" class="play-store-badge">
                     <span>Google Play</span>
                 </a>
 
                 <!-- Windows -->
                 <a href="#" id="windows-download-link" class="platform-card">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+                    <img src="Windows_logo_PNG1.png" alt="Disponível para Windows" class="windows-badge">
                     <span>Windows App</span>
                 </a>
             </div>
@@ -635,9 +667,9 @@
             </div>
             <p>&copy; 2026 Simple Monday. Desenvolvido de forma local e privada.</p>
             <ul class="footer-links">
-                <li><a href="#">Privacidade</a></li>
-                <li><a href="#">Termos</a></li>
-                <li><a href="#">Suporte</a></li>
+                <li><a href="changelog.html">Changelog</a></li>
+                <li><a href="privacy.html">Privacidade</a></li>
+                <li><a href="#download">Baixar</a></li>
             </ul>
         </div>
     </footer>

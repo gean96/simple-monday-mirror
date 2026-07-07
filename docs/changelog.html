@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog — Simple Monday</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0F172A;
+            --bg-secondary: #1E293B;
+            --accent-primary: #6366F1;
+            --accent-secondary: #06B6D4;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.9);
+            z-index: 100;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+        }
+
+        .back-link {
+            color: var(--accent-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 3rem 0 5rem;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .changelog-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+
+        .changelog-loading,
+        .changelog-error {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .changelog-error {
+            color: #f87171;
+        }
+
+        #changelog-content h1 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        #changelog-content h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        #changelog-content h2:first-of-type {
+            margin-top: 0;
+        }
+
+        #changelog-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #changelog-content p,
+        #changelog-content li {
+            color: var(--text-muted);
+        }
+
+        #changelog-content ul {
+            margin: 0.5rem 0 1rem 1.25rem;
+        }
+
+        #changelog-content li {
+            margin-bottom: 0.4rem;
+        }
+
+        #changelog-content strong {
+            color: var(--text-main);
+        }
+
+        #changelog-content code {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-secondary);
+        }
+
+        footer {
+            padding: 2rem 0;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <img src="icon.png" alt="" class="logo-icon" width="28" height="28">
+                Simple Monday
+            </a>
+            <a href="index.html" class="back-link">← Voltar ao site</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Changelog</h1>
+        <p class="page-subtitle">Histórico de versões e novidades do Simple Monday.</p>
+
+        <div class="changelog-card">
+            <div id="changelog-content" class="changelog-loading">Carregando changelog…</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Simple Monday</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var container = document.getElementById('changelog-content');
+            fetch('changelog.md')
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('changelog.md não encontrado');
+                    }
+                    return response.text();
+                })
+                .then(function (markdown) {
+                    container.className = '';
+                    container.innerHTML = marked.parse(markdown);
+                })
+                .catch(function (err) {
+                    container.className = 'changelog-error';
+                    container.textContent = 'Não foi possível carregar o changelog. ' + err.message;
+                });
+        });
+    </script>
+</body>
+</html>
