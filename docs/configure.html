@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar organização — Simple Monday</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --accent-primary: #6366F1;
+      --accent-secondary: #06B6D4;
+      --accent-green: #10B981;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --card-border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, sans-serif; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+    a.back {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    a.back:hover { color: var(--text-main); }
+    h1 {
+      margin: 1.25rem 0 0.5rem;
+      font-size: 1.75rem;
+      font-weight: 800;
+    }
+    .lead { color: var(--text-muted); margin-bottom: 1.75rem; }
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.35rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card h2 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .card p { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      margin-top: 0.65rem;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status {
+      margin-top: 0.75rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      min-height: 1.25rem;
+    }
+    .status.ok { color: var(--accent-green); }
+    .status.err { color: #F87171; }
+    .qr-wrap {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    .qr-wrap img {
+      width: 220px;
+      height: 220px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px;
+    }
+    .hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+    }
+    code {
+      font-size: 0.78rem;
+      word-break: break-all;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← Voltar</a>
+    <h1>Configurar organização</h1>
+    <p class="lead">
+      Abra o Simple Monday e use uma das opções abaixo para liberar os endpoints da empresa
+      (Monday, Clock In e Meu RH). Não é necessário digitar URLs manualmente.
+    </p>
+
+    <div class="card">
+      <h2>1. Celular (Android / iOS)</h2>
+      <p>Com o app instalado, toque no botão. O deep link abre o Simple Monday e importa a configuração.</p>
+      <a class="btn" id="btn-mobile" href="#">Abrir no app (deep link)</a>
+      <p class="status" id="status-mobile"></p>
+    </div>
+
+    <div class="card">
+      <h2>2. Windows (app já aberto)</h2>
+      <p>
+        Deixe o Simple Monday aberto neste PC e clique abaixo.
+        O browser fala com o listener local em <code>127.0.0.1:18765</code> (mesmo padrão do Guardi).
+      </p>
+      <a class="btn" id="btn-desktop" href="#">Enviar para o app neste PC</a>
+      <button type="button" class="btn secondary" id="btn-health">Testar se o app está escutando</button>
+      <p class="status" id="status-desktop"></p>
+      <p class="hint">Se o navegador bloquear, confirme a abertura de http://127.0.0.1 — é seguro e só no seu computador.</p>
+    </div>
+
+    <div class="card">
+      <h2>3. Escanear QR</h2>
+      <p>No app: menu → Escanear QR Code (ou colar o link em Importar via Link).</p>
+      <div class="qr-wrap">
+        <img id="qr-img" src="simple-monday-org-qr.png" alt="QR Code da organização" width="220" height="220">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var mobileBtn = document.getElementById("btn-mobile");
+      var desktopBtn = document.getElementById("btn-desktop");
+      var healthBtn = document.getElementById("btn-health");
+      var statusMobile = document.getElementById("status-mobile");
+      var statusDesktop = document.getElementById("status-desktop");
+      var qrImg = document.getElementById("qr-img");
+
+      function setStatus(el, text, cls) {
+        el.textContent = text || "";
+        el.className = "status" + (cls ? " " + cls : "");
+      }
+
+      fetch("org-connect.json", { cache: "no-store" })
+        .then(function (r) {
+          if (!r.ok) throw new Error("org-connect.json nao encontrado");
+          return r.json();
+        })
+        .then(function (cfg) {
+          var deep = cfg.deep_link || "";
+          var local = cfg.local_url || "";
+          if (cfg.qr_image) qrImg.src = cfg.qr_image;
+
+          if (deep) {
+            mobileBtn.href = deep;
+            mobileBtn.addEventListener("click", function () {
+              setStatus(statusMobile, "Abrindo o Simple Monday…", "");
+            });
+          } else {
+            mobileBtn.setAttribute("disabled", "disabled");
+            setStatus(statusMobile, "Deep link ausente no JSON.", "err");
+          }
+
+          if (local) {
+            desktopBtn.href = local;
+            desktopBtn.addEventListener("click", function () {
+              setStatus(
+                statusDesktop,
+                "Abrindo o listener local. Se falhar, abra o Simple Monday e tente de novo.",
+                ""
+              );
+            });
+          } else {
+            desktopBtn.setAttribute("disabled", "disabled");
+          }
+
+          healthBtn.addEventListener("click", function () {
+            var health = (cfg.local_base || "http://127.0.0.1:18765") + "/health";
+            // De pagina HTTPS, fetch HTTP e bloqueado (mixed content).
+            // Abrir em nova aba evita isso e mostra o JSON do listener.
+            window.open(health, "_blank", "noopener,noreferrer");
+            setStatus(
+              statusDesktop,
+              "Abri /health numa nova aba. Se aparecer {\"ready\":true}, o app esta escutando.",
+              ""
+            );
+          });
+        })
+        .catch(function (err) {
+          setStatus(statusMobile, String(err.message || err), "err");
+          setStatus(statusDesktop, "Falha ao carregar org-connect.json", "err");
+          mobileBtn.setAttribute("disabled", "disabled");
+          desktopBtn.setAttribute("disabled", "disabled");
+        });
+    })();
+  </script>
+</body>
+</html>
