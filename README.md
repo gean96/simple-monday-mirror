@@ -1,6 +1,6 @@
 # Conheça o Simple Monday
 
-O [**Simple Monday**](https://geanferreira96.github.io/simple-monday-mirror/) é o seu assistente inteligente de produtividade e controle de tempo. Ele foi desenhado para simplificar a sua rotina de trabalho unificando, em um único lugar, três sistemas fundamentais que você já usa no dia a dia: o **Monday.com**, o **Clock In (Carol)** e o **Meu RH (TOTVS)**.
+O [**Simple Monday**](https://simplemonday.gfsolutions.app.br/) é o seu assistente inteligente de produtividade e controle de tempo. Ele foi desenhado para simplificar a sua rotina de trabalho unificando, em um único lugar, três sistemas fundamentais que você já usa no dia a dia: o **Monday.com**, o **Clock In (Carol)** e o **Meu RH (TOTVS)**.
 
 Em vez de abrir vários sites e aplicativos diferentes para lançar suas tarefas, ver suas batidas ou justificar pontos, você faz tudo a partir de uma única interface prática e bonita.
 

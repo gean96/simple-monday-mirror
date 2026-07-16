@@ -1,5 +1,19 @@
 # Changelog — Simple Monday
 
+## Versão 0.19.0
+
+### Correções
+
+- Meu RH passa a resolver UTC em cascata a partir do Clock In (`pair` → `recent_gmt` → `punch_timezone`), com suporte a `America/Cuiaba` e fallback quando o Android não tem base IANA.
+- Corrigido o deep link `simplemonday://` no Android (intent-filter no manifesto) e o botão "Abrir no app" no site (Intent URL no Chrome).
+- Corrigidas permissões e fluxo de notificações/alarme/bateria no Android (incl. keep JNI no ProGuard).
+
+### Melhorias
+
+- Atualizado o stack do app: **Flet 0.86**, Flutter e Python do bundle Android (**3.14**), com `tzdata` empacotado.
+- Nova task de compilação **v2 (single-pass)** para APK e AAB, além de **Fast push** adaptado ao layout 0.86.
+- Configuração da organização deixa de depender de URL hardcoded: escolha e liberação dos endpoints passam pelo site ([configure](https://simplemonday.gfsolutions.app.br/configure.html)), com atalho no app, QR, deep link e opção de copiar código.
+
 ## Versão 0.18.3
 
 ### Melhorias
