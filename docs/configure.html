@@ -140,7 +140,7 @@
       outline-offset: 2px;
     }
     .org-card.selected {
-      border-color: rgba(99, 102, 241, 0.7);
+      border-color: rgba(6, 6, 8, 0.7);
       box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25);
     }
     .org-logo {
@@ -248,7 +248,12 @@
         <h2>1. Celular (Android / iOS)</h2>
         <p>Com o app instalado, toque no botão. O deep link abre o Simple Monday e importa a configuração.</p>
         <a class="btn" id="btn-mobile" href="#">Abrir no app (deep link)</a>
+        <button type="button" class="btn secondary" id="btn-copy-link">Copiar link de acesso</button>
         <p class="status" id="status-mobile"></p>
+        <p class="hint">
+           Se  falhar, copie o link e use
+          <strong>Importar via Link</strong> no app.
+        </p>
       </div>
 
       <div class="card">
@@ -286,6 +291,7 @@
       var changeOrgBtn = document.getElementById("btn-change-org");
 
       var mobileBtn = document.getElementById("btn-mobile");
+      var copyLinkBtn = document.getElementById("btn-copy-link");
       var desktopBtn = document.getElementById("btn-desktop");
       var healthBtn = document.getElementById("btn-health");
       var statusMobile = document.getElementById("status-mobile");
@@ -295,17 +301,82 @@
       var organizations = [];
       var selectedOrg = null;
       var healthHandler = null;
+      var currentDeepLink = "";
+      var ANDROID_PACKAGE = "com.gfsolutions.simplemonday";
 
       function setStatus(el, text, cls) {
         el.textContent = text || "";
         el.className = "status" + (cls ? " " + cls : "");
       }
 
+      function isAndroid() {
+        return /Android/i.test(navigator.userAgent || "");
+      }
+
+      /** Chrome/WebView Android ignoram custom schemes; Intent URL abre o app. */
+      function toAndroidIntentUrl(deepLink) {
+        var m = String(deepLink || "").match(/^([a-zA-Z][a-zA-Z0-9+.-]*):\/\/(.*)$/);
+        if (!m) return deepLink;
+        return (
+          "intent://" +
+          m[2] +
+          "#Intent;scheme=" +
+          encodeURIComponent(m[1]) +
+          ";package=" +
+          encodeURIComponent(ANDROID_PACKAGE) +
+          ";end"
+        );
+      }
+
+      function openDeepLink(deepLink) {
+        if (!deepLink) return;
+        var target = isAndroid() ? toAndroidIntentUrl(deepLink) : deepLink;
+        setStatus(statusMobile, "Abrindo o Simple Monday…", "");
+        window.location.href = target;
+        window.setTimeout(function () {
+          if (document.visibilityState === "visible") {
+            setStatus(
+              statusMobile,
+              "Se o app não abriu, toque em Copiar link e use Importar via Link no menu do Simple Monday.",
+              "err"
+            );
+          }
+        }, 1800);
+      }
+
+      async function copyDeepLink() {
+        if (!currentDeepLink) {
+          setStatus(statusMobile, "Link ainda não carregado.", "err");
+          return;
+        }
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(currentDeepLink);
+          } else {
+            var ta = document.createElement("textarea");
+            ta.value = currentDeepLink;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.left = "-9999px";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+          }
+          setStatus(statusMobile, "Link copiado. No app: menu → Importar via Link.", "ok");
+        } catch (_e) {
+          setStatus(statusMobile, "Não foi possível copiar. Selecione e copie manualmente.", "err");
+        }
+      }
+
       function resetActionButtons() {
         mobileBtn.removeAttribute("disabled");
+        copyLinkBtn.removeAttribute("disabled");
         desktopBtn.removeAttribute("disabled");
         mobileBtn.href = "#";
+        mobileBtn.onclick = null;
         desktopBtn.href = "#";
+        currentDeepLink = "";
         qrImg.removeAttribute("src");
         setStatus(statusMobile, "", "");
         setStatus(statusDesktop, "", "");
@@ -373,12 +444,18 @@
             if (cfg.qr_image) qrImg.src = cfg.qr_image;
 
             if (deep) {
-              mobileBtn.href = deep;
-              mobileBtn.onclick = function () {
-                setStatus(statusMobile, "Abrindo o Simple Monday…", "");
+              currentDeepLink = deep;
+              // href custom scheme como fallback (iOS / browsers que suportam);
+              // no Android o click usa Intent URL (Chrome bloqueia simplemonday://).
+              mobileBtn.href = isAndroid() ? toAndroidIntentUrl(deep) : deep;
+              mobileBtn.onclick = function (ev) {
+                ev.preventDefault();
+                openDeepLink(deep);
+                return false;
               };
             } else {
               mobileBtn.setAttribute("disabled", "disabled");
+              copyLinkBtn.setAttribute("disabled", "disabled");
               setStatus(statusMobile, "Deep link ausente no JSON.", "err");
             }
 
@@ -410,6 +487,7 @@
             setStatus(statusMobile, String(err.message || err), "err");
             setStatus(statusDesktop, "Falha ao carregar a configuração da organização.", "err");
             mobileBtn.setAttribute("disabled", "disabled");
+            copyLinkBtn.setAttribute("disabled", "disabled");
             desktopBtn.setAttribute("disabled", "disabled");
           });
       }
@@ -461,6 +539,9 @@
       }
 
       changeOrgBtn.addEventListener("click", showPicker);
+      copyLinkBtn.addEventListener("click", function () {
+        copyDeepLink();
+      });
 
       fetch("orgs.json", { cache: "no-store" })
         .then(function (r) {
