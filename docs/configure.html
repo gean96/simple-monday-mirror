@@ -104,47 +104,187 @@
       word-break: break-all;
       color: #cbd5e1;
     }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+    }
+    .org-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .org-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      text-align: left;
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+      color: inherit;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    }
+    .org-card:hover {
+      border-color: rgba(99, 102, 241, 0.45);
+      background: #243247;
+    }
+    .org-card:focus-visible {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: 2px;
+    }
+    .org-card.selected {
+      border-color: rgba(99, 102, 241, 0.7);
+      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25);
+    }
+    .org-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: #fff;
+      object-fit: contain;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+    .org-logo.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+    .org-meta { min-width: 0; flex: 1; }
+    .org-meta strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 0.15rem;
+    }
+    .org-meta span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .org-chevron {
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    .selected-banner {
+      display: none;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+      padding: 0.85rem 1rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+    }
+    .selected-banner.visible { display: flex; }
+    .selected-banner img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #fff;
+      object-fit: contain;
+      padding: 4px;
+    }
+    .selected-banner .info { flex: 1; min-width: 0; }
+    .selected-banner .info strong { display: block; font-size: 0.95rem; }
+    .selected-banner .info span { color: var(--text-muted); font-size: 0.8rem; }
+    .change-org {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .change-org:hover { border-color: rgba(255, 255, 255, 0.2); }
+    .hidden { display: none !important; }
+    #org-picker-error {
+      color: #F87171;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <a class="back" href="index.html">← Voltar</a>
     <h1>Configurar organização</h1>
-    <p class="lead">
-      Abra o Simple Monday e use uma das opções abaixo para liberar os endpoints da empresa
-      (Monday, Clock In e Meu RH). Não é necessário digitar URLs manualmente.
+    <p class="lead" id="page-lead">
+      Escolha a empresa abaixo. Em seguida, use o deep link, o envio para o app no PC
+      ou o QR Code para liberar os endpoints no Simple Monday.
     </p>
 
-    <div class="card">
-      <h2>1. Celular (Android / iOS)</h2>
-      <p>Com o app instalado, toque no botão. O deep link abre o Simple Monday e importa a configuração.</p>
-      <a class="btn" id="btn-mobile" href="#">Abrir no app (deep link)</a>
-      <p class="status" id="status-mobile"></p>
-    </div>
+    <section id="org-picker">
+      <p class="section-label">Organizações disponíveis</p>
+      <div class="org-list" id="org-list" aria-label="Lista de organizações"></div>
+      <p id="org-picker-error" class="hidden"></p>
+    </section>
 
-    <div class="card">
-      <h2>2. Windows (app já aberto)</h2>
-      <p>
-        Deixe o Simple Monday aberto neste PC e clique abaixo.
-        O browser fala com o listener local em <code>127.0.0.1:18765</code> (mesmo padrão do Guardi).
-      </p>
-      <a class="btn" id="btn-desktop" href="#">Enviar para o app neste PC</a>
-      <button type="button" class="btn secondary" id="btn-health">Testar se o app está escutando</button>
-      <p class="status" id="status-desktop"></p>
-      <p class="hint">Se o navegador bloquear, confirme a abertura de http://127.0.0.1 — é seguro e só no seu computador.</p>
-    </div>
-
-    <div class="card">
-      <h2>3. Escanear QR</h2>
-      <p>No app: menu → Escanear QR Code (ou colar o link em Importar via Link).</p>
-      <div class="qr-wrap">
-        <img id="qr-img" src="simple-monday-org-qr.png" alt="QR Code da organização" width="220" height="220">
+    <div class="selected-banner" id="selected-banner">
+      <img id="selected-logo" src="" alt="">
+      <div class="info">
+        <strong id="selected-name">—</strong>
+        <span>Configuração da organização selecionada</span>
       </div>
+      <button type="button" class="change-org" id="btn-change-org">Trocar</button>
     </div>
+
+    <section id="org-actions" class="hidden">
+      <div class="card">
+        <h2>1. Celular (Android / iOS)</h2>
+        <p>Com o app instalado, toque no botão. O deep link abre o Simple Monday e importa a configuração.</p>
+        <a class="btn" id="btn-mobile" href="#">Abrir no app (deep link)</a>
+        <p class="status" id="status-mobile"></p>
+      </div>
+
+      <div class="card">
+        <h2>2. Windows (app já aberto)</h2>
+        <p>
+          Deixe o Simple Monday aberto neste PC e clique abaixo.
+          O browser fala com o listener local em <code>127.0.0.1:18765</code> (mesmo padrão do Guardi).
+        </p>
+        <a class="btn" id="btn-desktop" href="#">Enviar para o app neste PC</a>
+        <button type="button" class="btn secondary" id="btn-health">Testar se o app está escutando</button>
+        <p class="status" id="status-desktop"></p>
+        <p class="hint">Se o navegador bloquear, confirme a abertura de http://127.0.0.1 — é seguro e só no seu computador.</p>
+      </div>
+
+      <div class="card">
+        <h2>3. Escanear QR</h2>
+        <p>No app: menu → Escanear QR Code (ou colar o link em Importar via Link).</p>
+        <div class="qr-wrap">
+          <img id="qr-img" src="" alt="QR Code da organização" width="220" height="220">
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
     (function () {
+      var orgList = document.getElementById("org-list");
+      var orgPicker = document.getElementById("org-picker");
+      var orgPickerError = document.getElementById("org-picker-error");
+      var orgActions = document.getElementById("org-actions");
+      var selectedBanner = document.getElementById("selected-banner");
+      var selectedLogo = document.getElementById("selected-logo");
+      var selectedName = document.getElementById("selected-name");
+      var pageLead = document.getElementById("page-lead");
+      var changeOrgBtn = document.getElementById("btn-change-org");
+
       var mobileBtn = document.getElementById("btn-mobile");
       var desktopBtn = document.getElementById("btn-desktop");
       var healthBtn = document.getElementById("btn-health");
@@ -152,61 +292,194 @@
       var statusDesktop = document.getElementById("status-desktop");
       var qrImg = document.getElementById("qr-img");
 
+      var organizations = [];
+      var selectedOrg = null;
+      var healthHandler = null;
+
       function setStatus(el, text, cls) {
         el.textContent = text || "";
         el.className = "status" + (cls ? " " + cls : "");
       }
 
-      fetch("org-connect.json", { cache: "no-store" })
-        .then(function (r) {
-          if (!r.ok) throw new Error("org-connect.json nao encontrado");
-          return r.json();
-        })
-        .then(function (cfg) {
-          var deep = cfg.deep_link || "";
-          var local = cfg.local_url || "";
-          if (cfg.qr_image) qrImg.src = cfg.qr_image;
+      function resetActionButtons() {
+        mobileBtn.removeAttribute("disabled");
+        desktopBtn.removeAttribute("disabled");
+        mobileBtn.href = "#";
+        desktopBtn.href = "#";
+        qrImg.removeAttribute("src");
+        setStatus(statusMobile, "", "");
+        setStatus(statusDesktop, "", "");
+        if (healthHandler) {
+          healthBtn.removeEventListener("click", healthHandler);
+          healthHandler = null;
+        }
+      }
 
-          if (deep) {
-            mobileBtn.href = deep;
-            mobileBtn.addEventListener("click", function () {
-              setStatus(statusMobile, "Abrindo o Simple Monday…", "");
-            });
-          } else {
-            mobileBtn.setAttribute("disabled", "disabled");
-            setStatus(statusMobile, "Deep link ausente no JSON.", "err");
-          }
+      function showPicker() {
+        selectedOrg = null;
+        orgPicker.classList.remove("hidden");
+        orgActions.classList.add("hidden");
+        selectedBanner.classList.remove("visible");
+        pageLead.textContent =
+          "Escolha a empresa abaixo. Em seguida, use o deep link, o envio para o app no PC " +
+          "ou o QR Code para liberar os endpoints no Simple Monday.";
+        resetActionButtons();
+        Array.prototype.forEach.call(orgList.querySelectorAll(".org-card"), function (card) {
+          card.classList.remove("selected");
+        });
+        if (window.history && window.history.replaceState) {
+          var url = new URL(window.location.href);
+          url.searchParams.delete("org");
+          window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+        }
+      }
 
-          if (local) {
-            desktopBtn.href = local;
-            desktopBtn.addEventListener("click", function () {
+      function showOrgConfig(org) {
+        selectedOrg = org;
+        orgPicker.classList.add("hidden");
+        orgActions.classList.remove("hidden");
+        selectedBanner.classList.add("visible");
+        selectedName.textContent = org.name;
+        selectedLogo.src = org.logo || "icon.png";
+        selectedLogo.alt = "Logo " + org.name;
+        pageLead.textContent =
+          "Use uma das opções abaixo para liberar os endpoints da " + org.name +
+          " (Monday, Clock In e Meu RH). Não é necessário digitar URLs manualmente.";
+
+        Array.prototype.forEach.call(orgList.querySelectorAll(".org-card"), function (card) {
+          card.classList.toggle("selected", card.getAttribute("data-org-id") === org.id);
+        });
+
+        if (window.history && window.history.replaceState) {
+          var url = new URL(window.location.href);
+          url.searchParams.set("org", org.id);
+          window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+        }
+
+        resetActionButtons();
+        loadOrgConnect(org);
+      }
+
+      function loadOrgConnect(org) {
+        var connectPath = org.connect || "org-connect.json";
+        fetch(connectPath, { cache: "no-store" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("Arquivo de configuração não encontrado (" + connectPath + ")");
+            return r.json();
+          })
+          .then(function (cfg) {
+            var deep = cfg.deep_link || "";
+            var local = cfg.local_url || "";
+            if (cfg.qr_image) qrImg.src = cfg.qr_image;
+
+            if (deep) {
+              mobileBtn.href = deep;
+              mobileBtn.onclick = function () {
+                setStatus(statusMobile, "Abrindo o Simple Monday…", "");
+              };
+            } else {
+              mobileBtn.setAttribute("disabled", "disabled");
+              setStatus(statusMobile, "Deep link ausente no JSON.", "err");
+            }
+
+            if (local) {
+              desktopBtn.href = local;
+              desktopBtn.onclick = function () {
+                setStatus(
+                  statusDesktop,
+                  "Abrindo o listener local. Se falhar, abra o Simple Monday e tente de novo.",
+                  ""
+                );
+              };
+            } else {
+              desktopBtn.setAttribute("disabled", "disabled");
+            }
+
+            healthHandler = function () {
+              var health = (cfg.local_base || "http://127.0.0.1:18765") + "/health";
+              window.open(health, "_blank", "noopener,noreferrer");
               setStatus(
                 statusDesktop,
-                "Abrindo o listener local. Se falhar, abra o Simple Monday e tente de novo.",
+                "Abri /health numa nova aba. Se aparecer {\"ready\":true}, o app esta escutando.",
                 ""
               );
-            });
-          } else {
+            };
+            healthBtn.addEventListener("click", healthHandler);
+          })
+          .catch(function (err) {
+            setStatus(statusMobile, String(err.message || err), "err");
+            setStatus(statusDesktop, "Falha ao carregar a configuração da organização.", "err");
+            mobileBtn.setAttribute("disabled", "disabled");
             desktopBtn.setAttribute("disabled", "disabled");
+          });
+      }
+
+      function renderOrgList(orgs) {
+        orgList.innerHTML = "";
+        if (!orgs.length) {
+          orgPickerError.textContent = "Nenhuma organização cadastrada.";
+          orgPickerError.classList.remove("hidden");
+          return;
+        }
+
+        orgs.forEach(function (org) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "org-card";
+          btn.setAttribute("data-org-id", org.id);
+
+          var logoHtml;
+          if (org.logo) {
+            logoHtml =
+              '<img class="org-logo" src="' + org.logo + '" alt="Logo ' + org.name + '">';
+          } else {
+            var initial = (org.name || "?").charAt(0).toUpperCase();
+            logoHtml = '<div class="org-logo placeholder" aria-hidden="true">' + initial + "</div>";
           }
 
-          healthBtn.addEventListener("click", function () {
-            var health = (cfg.local_base || "http://127.0.0.1:18765") + "/health";
-            // De pagina HTTPS, fetch HTTP e bloqueado (mixed content).
-            // Abrir em nova aba evita isso e mostra o JSON do listener.
-            window.open(health, "_blank", "noopener,noreferrer");
-            setStatus(
-              statusDesktop,
-              "Abri /health numa nova aba. Se aparecer {\"ready\":true}, o app esta escutando.",
-              ""
-            );
+          btn.innerHTML =
+            logoHtml +
+            '<div class="org-meta">' +
+            "<strong>" + org.name + "</strong>" +
+            "<span>" + (org.description || "Toque para ver as opções de configuração") + "</span>" +
+            "</div>" +
+            '<span class="org-chevron" aria-hidden="true">›</span>';
+
+          btn.addEventListener("click", function () {
+            showOrgConfig(org);
           });
+          orgList.appendChild(btn);
+        });
+      }
+
+      function requestedOrgId() {
+        try {
+          return new URL(window.location.href).searchParams.get("org");
+        } catch (_e) {
+          return null;
+        }
+      }
+
+      changeOrgBtn.addEventListener("click", showPicker);
+
+      fetch("orgs.json", { cache: "no-store" })
+        .then(function (r) {
+          if (!r.ok) throw new Error("orgs.json não encontrado");
+          return r.json();
+        })
+        .then(function (data) {
+          organizations = (data && data.organizations) || [];
+          renderOrgList(organizations);
+
+          var wanted = requestedOrgId();
+          if (wanted) {
+            var match = organizations.find(function (o) { return o.id === wanted; });
+            if (match) showOrgConfig(match);
+          }
         })
         .catch(function (err) {
-          setStatus(statusMobile, String(err.message || err), "err");
-          setStatus(statusDesktop, "Falha ao carregar org-connect.json", "err");
-          mobileBtn.setAttribute("disabled", "disabled");
-          desktopBtn.setAttribute("disabled", "disabled");
+          orgPickerError.textContent = String(err.message || err);
+          orgPickerError.classList.remove("hidden");
         });
     })();
   </script>

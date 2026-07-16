@@ -1,0 +1,11 @@
+{
+  "organizations": [
+    {
+      "id": "solinftec",
+      "name": "Solinftec",
+      "logo": "solinftec-logo.png",
+      "connect": "org-connect.json",
+      "description": "Endpoints Monday, Clock In (Carol) e Meu RH da Solinftec."
+    }
+  ]
+}
