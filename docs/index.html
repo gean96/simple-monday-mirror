@@ -736,8 +736,12 @@
                     <span>Google Play</span>
                 </a>
 
-                <!-- Windows -->
-                <a href="#" id="windows-download-link" class="platform-card">
+                <!-- Windows (fallback gean96; JS atualiza via update.json) -->
+                <a href="https://github.com/gean96/simple-monday-mirror/releases/latest/download/SimpleMonday.zip"
+                   id="windows-download-link"
+                   class="platform-card"
+                   target="_blank"
+                   rel="noopener noreferrer">
                     <img src="Windows_logo_PNG1.png" alt="Disponível para Windows" class="windows-badge">
                     <span>Windows App</span>
                 </a>
@@ -767,8 +771,10 @@
                 .then(function (response) { return response.json(); })
                 .then(function (data) {
                     var link = document.getElementById('windows-download-link');
-                    if (link && data.pyinstaller_download_url) {
-                        link.href = data.pyinstaller_download_url;
+                    if (!link) return;
+                    var url = data.pyinstaller_download_url || data.github_release;
+                    if (url) {
+                        link.href = url;
                     }
                 })
                 .catch(function () { });
