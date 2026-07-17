@@ -1,5 +1,15 @@
 # Changelog — Simple Monday
 
+## Versão 0.21.1
+
+### Novidades
+
+- Configurações usam a **pilha de Views** do Flet: o botão/gesto voltar do Android retorna à tela anterior (subpágina → menu → abas) em vez de fechar o app.
+- **Catálogo local** em Configurações → Apontamentos: criar e renomear workspace, board, status, tarefas e subelementos (aparecem ao apontar sem precisar de apontamento prévio).
+- Filtro workspace/board/status no **apontamento** também para destino Local.
+- Filtro workspace/board/status no **iniciar relógio** para Monday e Local.
+
+
 ## Versão 0.21.0
 
 ### Novidades
