@@ -496,6 +496,38 @@
             color: var(--text-main);
         }
 
+        /* --- MENU TOGGLE --- */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 110;
+        }
+
+        .menu-toggle svg line {
+            transition: var(--transition-smooth);
+            transform-origin: center;
+        }
+
+        .menu-toggle.active .line-2 { /* top line */
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .menu-toggle.active .line-1 { /* middle line */
+            opacity: 0;
+        }
+
+        .menu-toggle.active .line-3 { /* bottom line */
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .mobile-cta-item {
+            display: none;
+        }
+
         /* --- RESPONSIVENESS --- */
         @media (max-width: 768px) {
             .hero h1 {
@@ -504,12 +536,55 @@
             .hero p {
                 font-size: 1.1rem;
             }
+            .menu-toggle {
+                display: block;
+            }
+            .btn-header {
+                display: none;
+            }
             .nav-links {
-                display: none; /* Simplificado para mobile */
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 23, 42, 0.98);
+                backdrop-filter: blur(16px);
+                border-bottom: 1px solid var(--card-border);
+                padding: 1.5rem 2rem;
+                gap: 1.5rem;
+                transform: translateY(-10px);
+                opacity: 0;
+                pointer-events: none;
+                transition: var(--transition-smooth);
+                z-index: 99;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .mobile-cta-item {
+                display: block;
+                width: 100%;
+                margin-top: 0.5rem;
             }
             .security-banner {
-                padding: 2rem;
-                gap: 2rem;
+                padding: 1.5rem;
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            .security-info {
+                min-width: unset;
+            }
+            .security-info h3 {
+                font-size: 1.4rem;
+                flex-wrap: wrap;
+            }
+            .security-stats {
+                min-width: unset;
+                width: 100%;
             }
         }
     </style>
@@ -533,8 +608,16 @@
                 <li><a href="configure.html">Configurar org</a></li>
                 <li><a href="changelog.html">Changelog</a></li>
                 <li><a href="#download">Baixar</a></li>
+                <li class="mobile-cta-item"><a href="#download" class="btn-primary" style="display: block; text-align: center;">Obter App</a></li>
             </ul>
             <a href="#download" class="btn-header">Obter App</a>
+            <button class="menu-toggle" aria-label="Abrir menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12" class="line-1"></line>
+                    <line x1="3" y1="6" x2="21" y2="6" class="line-2"></line>
+                    <line x1="3" y1="18" x2="21" y2="18" class="line-3"></line>
+                </svg>
+            </button>
         </div>
     </header>
 
@@ -689,6 +772,26 @@
                     }
                 })
                 .catch(function () { });
+
+            // Mobile Menu Toggle
+            var menuToggle = document.querySelector('.menu-toggle');
+            var navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function () {
+                    menuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                // Close menu when a link is clicked
+                var links = navLinks.querySelectorAll('a');
+                links.forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        menuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
         });
     </script>
 </body>
