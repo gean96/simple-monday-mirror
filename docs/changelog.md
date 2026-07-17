@@ -1,5 +1,24 @@
 # Changelog — Simple Monday
 
+## Versão 0.20.0
+
+### Novidades
+
+- Apontamentos e relógio locais: destino **Local** ou **Monday**, com catálogo próprio (tarefa/subitem) sem misturar com a sync do Monday.
+- Dashboard com cards **Corretos** e **Incorretos** no ciclo selecionado (dias úteis de apontamento).
+- Menu de atualização no AppBar: escolher sincronizar tudo ou só uma integração ativa (Monday, Clock In, Meu RH, agenda, ICS).
+
+### Melhorias
+
+- Botão **Justificar** deixa de usar URL fixa: a URL do formulário vem do QR/config da organização; se ainda não existir, o app pede no primeiro clique.
+- Site [configure](https://simplemonday.gfsolutions.app.br/configure.html) e QR da Solinftec atualizados com a URL de justificativa.
+
+### Correções
+
+- Recuperação automática do SQLite em camadas (reparar índices → restaurar backup → quarentena e recriar), sem tela vermelha e sem deadlock ao recriar tabelas.
+- Backup consistente do banco local após escritas (no máximo a cada 5 minutos) para reduzir perda de dados em corrupção.
+- Kotlin alinhado ao modo WAL do SQLite Python, reduzindo risco de corrupção por acesso misto.
+
 ## Versão 0.19.0
 
 ### Correções
