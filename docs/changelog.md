@@ -1,5 +1,21 @@
 # Changelog — Simple Monday
 
+## Versão 0.21.0
+
+### Novidades
+
+- Leitura de QR preferindo o **Google Lens** (`com.google.ar.lens`) quando o app estiver instalado no Android.
+
+### Melhorias
+
+- Sem Lens instalado (ex.: tablet), o app abre a **câmera interna** — sem redirecionar para a Play Store.
+- Manifesto Android declara `<queries>` para `com.google.ar.lens`, necessário no Android 11+ para detectar e abrir o pacote.
+
+### Correções
+
+- Detecção do Lens deixa de depender do `MainActivity` em Android antigo (falha por `BackEvent`), usando Context via `ActivityThread`.
+- Removido fallback `google://lens` que no tablet reportava sucesso sem abrir nada e bloqueava a câmera.
+
 ## Versão 0.20.0
 
 ### Novidades
