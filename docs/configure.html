@@ -415,7 +415,7 @@
         selectedLogo.alt = "Logo " + org.name;
         pageLead.textContent =
           "Use uma das opções abaixo para liberar os endpoints da " + org.name +
-          " (Monday, Clock In e Meu RH). Não é necessário digitar URLs manualmente.";
+          " (Monday, Clock In, Meu RH e formulário de justificativa). Não é necessário digitar URLs manualmente.";
 
         Array.prototype.forEach.call(orgList.querySelectorAll(".org-card"), function (card) {
           card.classList.toggle("selected", card.getAttribute("data-org-id") === org.id);
@@ -441,7 +441,10 @@
           .then(function (cfg) {
             var deep = cfg.deep_link || "";
             var local = cfg.local_url || "";
-            if (cfg.qr_image) qrImg.src = cfg.qr_image;
+            if (cfg.qr_image) {
+              // Cache-bust para forçar o browser a buscar o PNG novo após republicar o QR.
+              qrImg.src = cfg.qr_image + "?v=" + encodeURIComponent(String(cfg.deep_link || "").slice(-24));
+            }
 
             if (deep) {
               currentDeepLink = deep;
