@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,96 +15,109 @@
       padding: 0 20px;
       color: #222;
     }
-    h1, h2 {
-      color: #111;
+    h1, h2 { color: #111; }
+    h1 { font-size: 28px; margin-bottom: 5px; }
+    h2 { margin-top: 30px; font-size: 20px; }
+    p { margin: 10px 0; }
+    ul { margin: 10px 0 10px 20px; }
+    .updated { color: #666; font-size: 14px; margin-bottom: 30px; }
+    .notice {
+      background: #f1f5f9;
+      border-left: 4px solid #0A7EA4;
+      padding: 12px 16px;
+      margin: 20px 0;
     }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 5px;
-    }
-    h2 {
-      margin-top: 30px;
-      font-size: 20px;
-    }
-    p {
-      margin: 10px 0;
-    }
-    ul {
-      margin: 10px 0 10px 20px;
-    }
-    .updated {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 30px;
-    }
+    a { color: #0A7EA4; }
   </style>
 </head>
-
 <body>
 
   <h1>Política de Privacidade – Simple Monday</h1>
+  <p class="updated"><strong>Última atualização:</strong> 20 de julho de 2026</p>
 
-  <p class="updated"><strong>Última atualização:</strong> 22 de junho de 2026</p>
+  <div class="notice">
+    <strong>Simple Monday é um aplicativo independente, não afiliado, endossado ou mantido pela TOTVS,
+    monday.com ou Carol.</strong>
+  </div>
 
   <p>
-    A sua privacidade é de extrema importância para nós. Esta Política de Privacidade descreve como o aplicativo
-    <strong>Simple Monday</strong> coleta, usa, armazena e protege as suas informações.
+    Esta Política de Privacidade descreve como o aplicativo <strong>Simple Monday</strong> trata informações
+    quando você o utiliza. O app foi criado para organização pessoal de produtividade e ponto; os dados
+    permanecem predominantemente no seu dispositivo.
   </p>
 
+  <h2>1. Quem trata os dados</h2>
   <p>
-    O Simple Monday foi desenvolvido como um aplicativo utilitário local para consolidação de produtividade,
-    permitindo a sincronização de tarefas do Monday.com e registros de ponto do Carol Clock In (Carol.ai) e TOTVS Meu RH.
+    Você utiliza o app com suas próprias contas. O desenvolvedor do Simple Monday
+    <strong>não recebe nem armazena</strong> em servidores próprios o conteúdo das suas batidas, apontamentos
+    ou credenciais. As comunicações com Monday.com, Carol (Clock In) e TOTVS Meu RH ocorrem
+    <strong>diretamente do seu aparelho</strong> para esses serviços, como faria um navegador ou app oficial,
+    usando as credenciais que você informa.
   </p>
 
-  <h2>1. Coleta e Uso de Informações</h2>
-  <p>Para fornecer as funcionalidades do aplicativo, podemos solicitar:</p>
+  <h2>2. Dados tratados no dispositivo</h2>
+  <p>Para funcionar, o app pode armazenar localmente, entre outros:</p>
   <ul>
-    <li><strong>Credenciais de Acesso:</strong> usuário, senha e/ou URLs de conexão para serviços terceiros.</li>
-    <li><strong>Tokens de API:</strong> para integração com o Monday.com.</li>
-    <li><strong>Dados de Produtividade:</strong> registros de ponto, tarefas e status de projetos.</li>
+    <li>Credenciais e tokens de acesso (criptografados no armazenamento seguro do sistema).</li>
+    <li>URLs de configuração da organização (Monday, Clock In, Meu RH).</li>
+    <li>Caches de ponto, apontamentos, calendário e preferências do app (banco SQLite privado).</li>
   </ul>
+  <p>
+    Cada usuário acessa apenas as informações associadas às suas credenciais.
+    O app não foi projetado para compartilhar dados entre usuários.
+  </p>
 
-  <h2>2. Processamento de Dados</h2>
-  <ul>
-    <li><strong>Comunicação Direta:</strong> os dados são enviados diretamente entre o seu dispositivo e serviços oficiais (Monday.com, Carol.ai e TOTVS).</li>
-    <li><strong>Sem Servidor Central:</strong> não armazenamos seus dados em servidores externos.</li>
-  </ul>
+  <h2>3. Compartilhamento com terceiros</h2>
+  <p>
+    O Simple Monday <strong>não vende</strong> nem compartilha seus dados com terceiros para marketing.
+    Dados são enviados apenas aos serviços que <strong>você escolhe conectar</strong> (APIs oficiais ou
+    endpoints da sua organização), para sincronizar informações que você já tem direito de acessar.
+  </p>
+  <p>
+    O backup automático do sistema operacional (ex.: Google Drive no Android) pode incluir dados do app
+    conforme as configurações do seu celular; isso é controlado pelo fabricante/SO, não pelo Simple Monday.
+  </p>
 
-  <h2>3. Armazenamento Seguro</h2>
-  <ul>
-    <li><strong>Credenciais:</strong> armazenadas de forma criptografada no dispositivo (Android Keystore / iOS Keychain).</li>
-    <li><strong>Dados locais:</strong> salvos em banco SQLite no armazenamento privado do aplicativo.</li>
-  </ul>
-
-  <h2>4. Controle e Exclusão de Dados</h2>
-  <ul>
-    <li>Você pode limpar dados ou desconectar contas a qualquer momento.</li>
-    <li>Ao desinstalar o aplicativo, todos os dados locais são removidos pelo sistema.</li>
-  </ul>
+  <h2>4. Base legal (LGPD)</h2>
+  <p>
+    O tratamento local visa atender sua solicitação de uso do app e seu interesse legítimo em organizar
+    sua rotina de trabalho. Você pode revogar o uso desinstalando o app ou apagando dados em Configurações.
+  </p>
 
   <h2>5. Segurança</h2>
   <ul>
-    <li>Uso de conexões seguras (HTTPS).</li>
-    <li>Boas práticas de segurança recomendadas pelo ecossistema Flutter/Flet.</li>
+    <li>Conexões HTTPS com serviços remotos.</li>
+    <li>Credenciais sensíveis em armazenamento seguro (Android Keystore / equivalentes).</li>
+    <li>Dados do app em área privada de armazenamento do aplicativo.</li>
   </ul>
 
-  <h2>6. Serviços de Terceiros</h2>
-  <p>O uso do aplicativo pode estar sujeito às políticas dos serviços abaixo:</p>
+  <h2>6. Seus direitos</h2>
+  <p>
+    Você pode desconectar integrações, limpar caches e desinstalar o app a qualquer momento.
+    Para dúvidas sobre dados tratados <strong>pelas plataformas</strong> (Monday, Carol, TOTVS),
+    consulte as políticas desses serviços e o RH/TI da sua organização.
+  </p>
+
+  <h2>7. Serviços de terceiros</h2>
+  <p>O uso integrado pode estar sujeito às políticas de:</p>
   <ul>
-    <li>Monday.com</li>
-    <li>Carol.ai (Solinftec / Carol Org)</li>
+    <li>monday.com</li>
+    <li>Carol (Clock In / Carol.ai)</li>
     <li>TOTVS Meu RH</li>
   </ul>
 
-  <h2>7. Alterações nesta Política</h2>
+  <h2>8. Alterações</h2>
   <p>
-    Podemos atualizar esta Política de Privacidade periodicamente. Recomendamos revisar esta página regularmente.
+    Esta política pode ser atualizada. A data no topo indica a versão vigente.
+    Consulte também os <a href="terms.html">Termos de Uso</a>.
   </p>
 
-  <h2>8. Contato</h2>
+  <h2>9. Contato</h2>
   <p>
-    E-mail de suporte: <strong>gean.ferreira@solinftec.com</strong>
+    Privacidade e suporte: <strong>gean.ferreira@solinftec.com</strong>
   </p>
+
+  <p><a href="index.html">← Voltar ao site</a></p>
 
 </body>
 </html>
