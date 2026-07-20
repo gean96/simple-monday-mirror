@@ -61,10 +61,24 @@
     <li>Credenciais e tokens de acesso (criptografados no armazenamento seguro do sistema).</li>
     <li>URLs de configuração da organização (Monday, Clock In, Meu RH).</li>
     <li>Caches de ponto, apontamentos, calendário e preferências do app (banco SQLite privado).</li>
+    <li>Batidas locais manuais ou biométricas (horário, sentido e, quando aplicável, coordenadas GPS e fonte do horário).</li>
   </ul>
   <p>
     Cada usuário acessa apenas as informações associadas às suas credenciais.
     O app não foi projetado para compartilhar dados entre usuários.
+  </p>
+
+  <h2>2.1. Batida biométrica local</h2>
+  <p>
+    Quando você usa a batida biométrica local (FAB ou widget), o app pode solicitar:
+  </p>
+  <ul>
+    <li><strong>Biometria ou PIN do aparelho</strong> — apenas para confirmar sua identidade no dispositivo; o Simple Monday não envia impressão digital ou face para nenhum servidor.</li>
+    <li><strong>Localização GPS</strong> — obrigatória nessa modalidade, gravada junto da batida no SQLite local.</li>
+    <li><strong>Data e hora confiáveis</strong> — obtidas do GPS ou de um servidor de horário na internet; o relógio do aparelho não é usado sozinho.</li>
+  </ul>
+  <p>
+    Essas batidas locais <strong>não são enviadas</strong> automaticamente à TOTVS, Carol ou monday.com.
   </p>
 
   <h2>3. Compartilhamento com terceiros</h2>
