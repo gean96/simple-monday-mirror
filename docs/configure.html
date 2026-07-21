@@ -317,9 +317,8 @@
         return /Android/i.test(navigator.userAgent || "");
       }
 
-      /** Chrome/WebView Android ignoram custom schemes; Intent URL abre o app.
-       * launchFlags 0x14000000 = NEW_TASK | CLEAR_TOP: reutiliza a task existente
-       * (evita "dual app" / segunda instancia no Recents). */
+      /** Fallback p/ Chrome solto (bloqueia custom scheme). Sem launchFlags:
+       * NEW_TASK forçado a partir do Custom Tabs cria segunda task ("dual app"). */
       function toAndroidIntentUrl(deepLink) {
         var m = String(deepLink || "").match(/^([a-zA-Z][a-zA-Z0-9+.-]*):\/\/(.*)$/);
         if (!m) return deepLink;
@@ -330,15 +329,25 @@
           encodeURIComponent(m[1]) +
           ";package=" +
           encodeURIComponent(ANDROID_PACKAGE) +
-          ";launchFlags=0x14000000;end"
+          ";end"
         );
       }
 
       function openDeepLink(deepLink) {
         if (!deepLink) return;
-        var target = isAndroid() ? toAndroidIntentUrl(deepLink) : deepLink;
         setStatus(statusMobile, "Abrindo o Simple Monday…", "");
-        window.location.href = target;
+        if (!isAndroid()) {
+          window.location.href = deepLink;
+          return;
+        }
+        // 1) Scheme nativo: no Custom Tabs devolve p/ o MainActivity que abriu (mesma task).
+        window.location.href = deepLink;
+        // 2) Se a página ainda estiver visível, Chrome solto bloqueou o scheme → Intent URL.
+        window.setTimeout(function () {
+          if (document.visibilityState === "visible") {
+            window.location.href = toAndroidIntentUrl(deepLink);
+          }
+        }, 450);
         window.setTimeout(function () {
           if (document.visibilityState === "visible") {
             setStatus(
@@ -454,9 +463,9 @@
 
             if (deep) {
               currentDeepLink = deep;
-              // href custom scheme como fallback (iOS / browsers que suportam);
-              // no Android o click usa Intent URL (Chrome bloqueia simplemonday://).
-              mobileBtn.href = isAndroid() ? toAndroidIntentUrl(deep) : deep;
+              // href = scheme nativo (Custom Tabs / iOS). Click no Android usa openDeepLink
+              // (scheme primeiro; Intent URL só se o Chrome solto bloquear).
+              mobileBtn.href = deep;
               mobileBtn.onclick = function (ev) {
                 ev.preventDefault();
                 openDeepLink(deep);
