@@ -317,7 +317,9 @@
         return /Android/i.test(navigator.userAgent || "");
       }
 
-      /** Chrome/WebView Android ignoram custom schemes; Intent URL abre o app. */
+      /** Chrome/WebView Android ignoram custom schemes; Intent URL abre o app.
+       * launchFlags 0x14000000 = NEW_TASK | CLEAR_TOP: reutiliza a task existente
+       * (evita "dual app" / segunda instancia no Recents). */
       function toAndroidIntentUrl(deepLink) {
         var m = String(deepLink || "").match(/^([a-zA-Z][a-zA-Z0-9+.-]*):\/\/(.*)$/);
         if (!m) return deepLink;
@@ -328,7 +330,7 @@
           encodeURIComponent(m[1]) +
           ";package=" +
           encodeURIComponent(ANDROID_PACKAGE) +
-          ";end"
+          ";launchFlags=0x14000000;end"
         );
       }
 
