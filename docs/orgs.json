@@ -4,7 +4,7 @@
       "id": "solinftec",
       "name": "Solinftec",
       "logo": "solinftec-logo.png",
-      "connect": "org-connect.json",
+      "connect": "orgs/solinftec/org-connect.json",
       "description": "Endpoints Monday, Clock In (Carol), Meu RH e formulário de justificativa da Solinftec."
     }
   ]

@@ -446,10 +446,29 @@
         loadOrgConnect(org);
       }
 
+      /** Deriva a "gate.html" que fica na mesma pasta protegida do connect.json.
+       * Navegar até ela força o Cloudflare Access a mostrar a tela de login
+       * (requisições via fetch() não recebem a UI interativa, só um 401/403). */
+      function gatePathFor(connectPath) {
+        var idx = connectPath.lastIndexOf("/");
+        var dir = idx >= 0 ? connectPath.slice(0, idx + 1) : "";
+        return dir + "gate.html";
+      }
+
+      function redirectToLogin(connectPath) {
+        var gate = gatePathFor(connectPath) + "?return=" + encodeURIComponent(window.location.href);
+        window.location.href = gate;
+      }
+
       function loadOrgConnect(org) {
         var connectPath = org.connect || "org-connect.json";
         fetch(connectPath, { cache: "no-store" })
           .then(function (r) {
+            if (r.status === 401 || r.status === 403) {
+              var authErr = new Error("auth_required");
+              authErr.authRequired = true;
+              throw authErr;
+            }
             if (!r.ok) throw new Error("Arquivo de configuração não encontrado (" + connectPath + ")");
             return r.json();
           })
@@ -502,6 +521,15 @@
             healthBtn.addEventListener("click", healthHandler);
           })
           .catch(function (err) {
+            if (err && err.authRequired) {
+              setStatus(statusMobile, "Esta organização exige login corporativo. Redirecionando…", "");
+              setStatus(statusDesktop, "Esta organização exige login corporativo. Redirecionando…", "");
+              mobileBtn.setAttribute("disabled", "disabled");
+              copyLinkBtn.setAttribute("disabled", "disabled");
+              desktopBtn.setAttribute("disabled", "disabled");
+              redirectToLogin(connectPath);
+              return;
+            }
             setStatus(statusMobile, String(err.message || err), "err");
             setStatus(statusDesktop, "Falha ao carregar a configuração da organização.", "err");
             mobileBtn.setAttribute("disabled", "disabled");

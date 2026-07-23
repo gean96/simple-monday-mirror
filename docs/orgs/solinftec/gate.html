@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrando…</title>
+  <meta name="robots" content="noindex">
+  <style>
+    body {
+      background: #0F172A;
+      color: #F8FAFC;
+      font-family: Inter, system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <p>Login confirmado. Redirecionando…</p>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var back = params.get("return");
+      var fallback = new URL("../../configure.html", window.location.href).href;
+      window.location.replace(back || fallback);
+    })();
+  </script>
+  <noscript>Login confirmado. Volte para a página de configuração.</noscript>
+</body>
+</html>
