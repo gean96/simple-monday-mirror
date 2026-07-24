@@ -1,5 +1,12 @@
 # Changelog — Simple Monday
 
+## Versão 0.23.6
+
+### Correções
+
+- Calendário ICS e agenda do celular deixam de depender de flags no SQLite: a conexão passa a seguir o secure storage (como as outras credenciais), evitando aparecer “desconectado” após recriação/atualização do banco.
+- ICS: conectado = URL presente no secure storage; agenda Android: flag `android_calendar_enabled` também no secure storage, com migração automática do valor legado.
+
 ## Versão 0.23.5
 
 ### Correções
