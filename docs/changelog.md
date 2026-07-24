@@ -1,5 +1,12 @@
 # Changelog — Simple Monday
 
+## Versão 0.23.5
+
+### Correções
+
+- Calendário Teams/Outlook (ICS): reuniões recorrentes com o mesmo `UID` deixam de falhar na sincronização (`UNIQUE constraint failed`).
+- Ocorrências da série passam a aparecer corretamente no mês — tanto quando o Outlook já expande as instâncias quanto quando envia só o evento mestre com `RRULE` (com suporte a `EXDATE` e `RECURRENCE-ID`).
+
 ## Versão 0.21.1
 
 ### Novidades
