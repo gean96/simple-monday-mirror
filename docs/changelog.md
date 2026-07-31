@@ -1,5 +1,26 @@
 # Changelog — Simple Monday
 
+## Versão 0.24.0
+
+### Novidades
+
+- Configurações → Ponto: feriados, pontos salvos, sugestões de justificativa, turnos, horário do ponto e ciclo/meta de horas passam a abrir em **subpáginas** a partir de cards clicáveis (lista principal mais limpa).
+- Alerta de batida ímpar no calendário vira **badge** no canto superior direito do dia (ícone sem fundo, sobre a quina da borda).
+
+### Melhorias
+
+- Banner de sync: padding à esquerda no loading para o anel não ficar cortado.
+- Relógio de horas trabalhadas mais estável (menos engasgos / pulos de segundos).
+- Perfil: card da conta em linha expansível com nome, ID e slug em linhas internas.
+- Alertas visuais reposicionados acima de ciclo/meta de horas.
+
+### Correções
+
+- Android: “Justificar local” no menu do dia abre o modal de forma confiável (não engole o diálogo ao fechar o PopupMenu).
+- Justificativa local: inserir/remover só atualiza a UI — sem disparar sync de endpoints.
+- ICS/Teams: respeita o TTL como as outras integrações; ao abrir, só sincroniza (e mostra o banner) se o cache estiver vencido.
+- Logo do modal Sobre passa a aparecer também no APK (resolução de assets no layout Flet `path=src`).
+
 ## Versão 0.23.6
 
 ### Correções
