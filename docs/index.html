@@ -413,7 +413,8 @@
         }
 
         .platform-card img.play-store-badge,
-        .platform-card img.windows-badge {
+        .platform-card img.windows-badge,
+        .platform-card img.linux-badge {
             width: auto;
             height: 48px;
             max-width: 180px;
@@ -719,7 +720,7 @@
                     <a href="https://groups.google.com/g/simplemonday" target="_blank" rel="noopener noreferrer">Entre no grupo Google</a>
                     para receber acesso e baixar no Android.
                     Depois de instalar, <a href="configure.html">configure a organização</a>
-                    (QR, deep link ou Windows com o app aberto).
+                    (QR, deep link ou Windows/Linux com o app aberto).
                 </p>
             </div>
 
@@ -744,6 +745,16 @@
                    rel="noopener noreferrer">
                     <img src="Windows_logo_PNG1.png" alt="Disponível para Windows" class="windows-badge">
                     <span>Windows App</span>
+                </a>
+
+                <!-- Linux (fallback gean96; JS atualiza via update.json) -->
+                <a href="https://github.com/gean96/simple-monday-mirror/releases/latest/download/SimpleMonday-linux.zip"
+                   id="linux-download-link"
+                   class="platform-card"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <img src="linux_logo_icon_171222.webp" alt="Disponível para Linux" class="linux-badge">
+                    <span>Linux App</span>
                 </a>
             </div>
         </div>
@@ -771,11 +782,19 @@
             fetch('update.json')
                 .then(function (response) { return response.json(); })
                 .then(function (data) {
-                    var link = document.getElementById('windows-download-link');
-                    if (!link) return;
-                    var url = data.pyinstaller_download_url || data.github_release;
-                    if (url) {
-                        link.href = url;
+                    var winLink = document.getElementById('windows-download-link');
+                    if (winLink) {
+                        var winUrl = data.pyinstaller_download_url || data.github_release;
+                        if (winUrl) {
+                            winLink.href = winUrl;
+                        }
+                    }
+                    var linuxLink = document.getElementById('linux-download-link');
+                    if (linuxLink) {
+                        var linuxUrl = data.linux_pyinstaller_download_url || data.github_release;
+                        if (linuxUrl) {
+                            linuxLink.href = linuxUrl;
+                        }
                     }
                 })
                 .catch(function () { });
