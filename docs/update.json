@@ -1,16 +1,16 @@
 {
-    "version":  "0.25.1",
+    "version":  "0.25.3",
     "release":  true,
-    "pyinstaller_download_url":  "https://github.com/gean96/simple-monday-mirror/releases/download/0.25.1/SimpleMonday.zip",
+    "pyinstaller_download_url":  "https://github.com/gean96/simple-monday-mirror/releases/download/0.25.3/SimpleMonday.zip",
     "nuitka_download_url":  "",
     "compiler":  "pyinstaller",
     "beta_users":  [
 
                    ],
-    "pyinstaller_sha256":  "b4f9d2fc7d0a64498e82c3358efbd9d02ec7122429815b18b6c017250208f40a",
+    "pyinstaller_sha256":  "88fc1499e93a4cac6b94693a17c8f24288b8b857c41589b56190587906ca74f8",
     "nuitka_sha256":  "",
     "github_release":  "https://github.com/gean96/simple-monday-mirror/releases/latest",
-    "updated_at":  "2026-08-05T20:46:59Z",
+    "updated_at":  "2026-08-07T21:33:11Z",
     "linux_pyinstaller_download_url":  "https://github.com/gean96/simple-monday-mirror/releases/download/0.25.1/SimpleMonday-linux.zip",
     "linux_pyinstaller_sha256":  "ca777ecf8fd971fc83113b653482b58b4c76d71975d7c7fbbb2efeaad78f13b2"
 }
