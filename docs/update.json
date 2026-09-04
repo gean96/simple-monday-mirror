@@ -1,6 +1,6 @@
 {
     "version":  "0.30.3",
-    "min_version":  "0.27.0",
+    "min_version":  "0.30.0",
     "release":  true,
     "pyinstaller_download_url":  "https://github.com/gean96/simple-monday-mirror/releases/download/0.30.3/SimpleMonday.zip",
     "nuitka_download_url":  "",
