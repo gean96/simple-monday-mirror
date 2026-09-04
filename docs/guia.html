@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia de configuração — Simple Monday</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --accent-primary: #6366F1;
+      --accent-secondary: #06B6D4;
+      --accent-green: #10B981;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --card-border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, sans-serif; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .container { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+    header {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 20;
+    }
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+    .logo img { border-radius: 8px; }
+    .logo span { color: var(--accent-primary); }
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-link:hover { color: var(--text-main); }
+    main { padding: 2.5rem 0 4rem; }
+    .page-title {
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .page-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 40rem;
+    }
+    .toc {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 2.5rem;
+    }
+    .toc h2 {
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+    .toc ol {
+      margin-left: 1.15rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+    .toc a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+    }
+    .toc a:hover { text-decoration: underline; }
+    section.block {
+      margin-bottom: 2.75rem;
+      scroll-margin-top: 5rem;
+    }
+    section.block h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.55rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+    section.block h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 1.35rem 0 0.5rem;
+      color: #E2E8F0;
+    }
+    section.block p,
+    section.block li {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+    section.block ul,
+    section.block ol {
+      margin: 0.5rem 0 1rem 1.2rem;
+    }
+    section.block li { margin-bottom: 0.4rem; }
+    section.block strong { color: var(--text-main); font-weight: 600; }
+    .callout {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      margin: 1rem 0 1.25rem;
+      color: #C7D2FE;
+      font-size: 0.92rem;
+    }
+    .callout.green {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #A7F3D0;
+    }
+    .card-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0 1.25rem;
+      font-size: 0.88rem;
+    }
+    .card-table th,
+    .card-table td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--card-border);
+      vertical-align: top;
+    }
+    .card-table th {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .card-table td { color: var(--text-muted); }
+    a.inline {
+      color: var(--accent-secondary);
+      text-decoration: none;
+    }
+    a.inline:hover { text-decoration: underline; }
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 1.5rem 0 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .card-table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-wrapper">
+      <a href="index.html" class="logo">
+        <img src="icon.png" alt="" width="28" height="28">
+        Simple<span>Monday</span>
+      </a>
+      <a href="index.html" class="back-link">← Voltar ao site</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Guia de configuração</h1>
+    <p class="page-subtitle">
+      Passo a passo para criar a conta, ligar a organização da empresa, conectar integrações
+      e usar o calendário, o dashboard e as restantes opções do Simple Monday.
+    </p>
+
+    <nav class="toc" aria-label="Índice">
+      <h2>Neste guia</h2>
+      <ol>
+        <li><a href="#inicio">Primeiros passos</a></li>
+        <li><a href="#conta">Conta (login e cadastro)</a></li>
+        <li><a href="#organizacao">Organização da empresa</a></li>
+        <li><a href="#integracoes">Integrações</a></li>
+        <li><a href="#privacidade">Onde ficam os seus dados</a></li>
+        <li><a href="#app">O que o app faz (cada parte)</a></li>
+        <li><a href="#outras">Outras configurações</a></li>
+      </ol>
+    </nav>
+
+    <section class="block" id="inicio">
+      <h2>1. Primeiros passos</h2>
+      <p>Na primeira utilização o fluxo típico é:</p>
+      <ol>
+        <li>Instalar o app (Google Play, Windows ou Linux).</li>
+        <li>Aceitar a <strong>política de privacidade</strong>.</li>
+        <li><strong>Criar conta</strong> ou entrar (Simple Monday).</li>
+        <li>Ver o onboarding rápido (opcional de ler).</li>
+        <li><strong>Configurar a organização</strong> da empresa (QR / link) — ou pular e fazer depois.</li>
+        <li>Em <strong>Configurações → Integrações</strong>, ligar Monday, Clock In, Meu RH, agenda, etc.</li>
+        <li>Ajustar turnos, notificações e usar o <strong>Calendário</strong>.</li>
+      </ol>
+      <div class="callout">
+        Sem conta Simple Monday não avança para o app. Sem organização, as integrações da empresa
+        pedem URLs/slugs manualmente — o QR só facilita esse passo.
+      </div>
+    </section>
+
+    <section class="block" id="conta">
+      <h2>2. Conta (login e cadastro)</h2>
+      <p>
+        O Simple Monday usa uma <strong>conta própria</strong> (e-mail e senha, ou Google) para
+        identificar o utilizador e o plano (<strong>Gratuito</strong> / <strong>Premium</strong>).
+        Isto é independente do login do Monday, Clock In ou Meu RH.
+      </p>
+
+      <h3>Primeira vez — criar conta</h3>
+      <ol>
+        <li>Na tela de login, abra a aba <strong>Criar conta</strong>.</li>
+        <li>Preencha <strong>Nome</strong> (opcional), <strong>E-mail</strong> e <strong>Senha</strong> (mínimo 6 caracteres).</li>
+        <li>Toque em <strong>Criar conta</strong> (ou <strong>Continuar com Google</strong>).</li>
+        <li>Se o projeto pedir confirmação por e-mail, recebes um link — abre-o no browser
+          (página “Confirmar conta”). Depois volta ao app e usa <strong>Entrar</strong>.</li>
+      </ol>
+      <p>Confirme também a pasta de spam se o e-mail não chegar.</p>
+
+      <h3>Já tem conta — entrar</h3>
+      <ul>
+        <li>Aba <strong>Entrar</strong>: e-mail, senha e <strong>Entrar</strong>.</li>
+        <li>Ou <strong>Entrar com Google</strong>.</li>
+        <li><strong>Esqueci a senha</strong> envia um link de redefinição para o e-mail.</li>
+      </ul>
+
+      <h3>Manter-me conectado</h3>
+      <p>
+        Com a opção ativa, a senha fica no <strong>cofre do aparelho</strong>. Na próxima vez
+        desbloqueia com biometria/PIN (Android), Windows Hello (PC) ou autenticação do sistema (Linux).
+        É preciso ter o bloqueio do dispositivo configurado.
+      </p>
+
+      <h3>Conta nas Configurações</h3>
+      <p>
+        Em <strong>Configurações → Conta</strong> vê o e-mail, o plano, pode assinar/restaurar Premium
+        (Android), <strong>Terminar sessão</strong> ou <strong>Apagar tudo</strong> (dados locais + sessão).
+      </p>
+    </section>
+
+    <section class="block" id="organizacao">
+      <h2>3. Organização da empresa</h2>
+      <p>
+        A <strong>organização</strong> é o conjunto de endereços (URLs / slug) da sua empresa:
+        Monday, Carol Clock In, Meu RH e, quando existir, o formulário de justificativa.
+        O Simple Monday precisa disso para saber <em>a que ambiente</em> se ligar — não é o seu
+        utilizador/senha dessas ferramentas.
+      </p>
+
+      <h3>Para que serve</h3>
+      <ul>
+        <li>Preencher automaticamente as bases de Clock In e Meu RH.</li>
+        <li>Definir o slug Monday usado no login interno e recuperação de senha.</li>
+        <li>Abrir o formulário certo ao justificar (quando a empresa fornece a URL).</li>
+      </ul>
+
+      <h3>Como configurar</h3>
+      <ol>
+        <li>Peça o QR ou o link à empresa / TI (ou use o gerador do site).</li>
+        <li>No app: ecrã <strong>Configurar organização</strong>, ou menu ⋯ →
+          <strong>Escanear QR Code</strong> / <strong>Importar via Link</strong>.</li>
+        <li>No telemóvel pode apontar a câmara; no PC pode colar o código
+          <code>simplemonday://…</code>.</li>
+        <li>Também pode usar a página
+          <a class="inline" href="configure.html">configurar organização</a>
+          para gerar QR, deep link ou copiar o código (com o app aberto no PC).</li>
+      </ol>
+      <p>
+        Se ainda não tiver o QR, escolha <strong>Pular por enquanto</strong> e preencha depois
+        em Configurações / ao conectar cada integração.
+      </p>
+    </section>
+
+    <section class="block" id="integracoes">
+      <h2>4. Integrações</h2>
+      <p>
+        Em <strong>Configurações → Integrações</strong> liga as ferramentas que a empresa usa.
+        As <strong>credenciais</strong> (e-mail/senha, tokens) ficam só neste aparelho.
+      </p>
+
+      <table class="card-table">
+        <thead>
+          <tr>
+            <th>Integração</th>
+            <th>Como ligar</th>
+            <th>Para que serve</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Monday.com — Login interno</strong></td>
+            <td>E-mail e senha Monday (conta da empresa)</td>
+            <td>Relógio, apontamentos e sync via API interna (caminho principal)</td>
+          </tr>
+          <tr>
+            <td><strong>Monday.com — API pública</strong></td>
+            <td>Token da API (opcional)</td>
+            <td>Boards/tarefas pela API pública — <strong>não é obrigatório</strong> se usar o login interno</td>
+          </tr>
+          <tr>
+            <td><strong>Carol Clock In</strong></td>
+            <td>E-mail/senha + URLs da organização</td>
+            <td>Histórico de batidas no calendário e dashboard</td>
+          </tr>
+          <tr>
+            <td><strong>TOTVS Meu RH</strong></td>
+            <td>Utilizador/senha + URL base</td>
+            <td>Espelho de ponto, abonos, atrasos/extras</td>
+          </tr>
+          <tr>
+            <td><strong>Agenda do dispositivo</strong></td>
+            <td>Permissão no Android</td>
+            <td>Eventos do telemóvel no calendário do app</td>
+          </tr>
+          <tr>
+            <td><strong>Calendário Teams / Outlook</strong></td>
+            <td>Link ICS partilhado</td>
+            <td>Reuniões corporativas no calendário</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Sem integração remota</h3>
+      <p>
+        Pode usar <strong>batidas locais</strong> (manual ou biométrica) e
+        <strong>apontamentos locais</strong>, com catálogo próprio em
+        Configurações → Apontamentos → <strong>Catálogo local</strong>.
+        Os dados ficam no aparelho até as sincronizar ou exportar conforme o fluxo da empresa.
+      </p>
+
+      <div class="callout green">
+        Dica: configure primeiro a <strong>organização</strong>, depois ligue Monday (login interno)
+        e, se usar, Clock In e Meu RH. A sincronização no calendário usa o menu de atualizar
+        (tudo ou só uma integração).
+      </div>
+    </section>
+
+    <section class="block" id="privacidade">
+      <h2>5. Onde ficam os seus dados</h2>
+      <p>
+        O Simple Monday foi pensado para o trabalho do dia a dia <strong>ficar no dispositivo</strong>.
+      </p>
+      <table class="card-table">
+        <thead>
+          <tr>
+            <th>No aparelho (local)</th>
+            <th>Na nuvem (Supabase)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              Batidas (Clock In, Meu RH, locais), apontamentos, cache Monday,
+              turnos, feriados, notificações, organização, credenciais das integrações
+              (cofre seguro do SO)
+            </td>
+            <td>
+              Conta Simple Monday (login), sessão e <strong>plano</strong>
+              Gratuito/Premium (e compras Play no Android)
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Senhas do Monday / Clock In / Meu RH e o histórico de ponto/apontamento
+        <strong>não</strong> são enviados para o servidor da conta Simple Monday.
+        Detalhes legais: <a class="inline" href="privacy.html">Política de privacidade</a>
+        e <a class="inline" href="terms.html">Termos</a>.
+      </p>
+    </section>
+
+    <section class="block" id="app">
+      <h2>6. O que o app faz (cada parte)</h2>
+
+      <h3>Calendário</h3>
+      <p>
+        Vista mensal e do dia: batidas, apontamentos, eventos da agenda e do ICS.
+        Ações rápidas para bater ponto, apontar horas, justificar e sincronizar
+        (puxar para atualizar ou menu de sync). Timeline do dia mostra a sequência do trabalho.
+      </p>
+
+      <h3>Dashboard</h3>
+      <p>
+        Resumo do ciclo escolhido: extras, atrasos, abonos, saldo e indicadores de
+        apontamento (conforme as fontes ligadas).
+      </p>
+
+      <h3>Perfil</h3>
+      <p>
+        Dados do perfil vindos do Monday e/ou Meu RH quando essas integrações estão conectadas.
+      </p>
+
+      <h3>Menu ⋯</h3>
+      <ul>
+        <li><strong>Escanear / Importar / Gerar QR</strong> — organização ou partilha entre aparelhos</li>
+        <li><strong>Configurações</strong> — conta, integrações, ponto, notificações, etc.</li>
+        <li><strong>Sobre</strong> — versão e informação do app</li>
+      </ul>
+    </section>
+
+    <section class="block" id="outras">
+      <h2>7. Outras configurações</h2>
+      <p>Em <strong>Configurações</strong> encontra ainda:</p>
+      <ul>
+        <li><strong>Geral → Horário</strong> — base de tempo (parede / UTC) para pontos e apontamentos.</li>
+        <li><strong>Agenda</strong> — dias de trabalho, primeiro dia da semana, fontes da agenda Android.</li>
+        <li><strong>Apontamentos</strong> — jornada, intervalo ponto/turno, catálogo local.</li>
+        <li><strong>Ponto</strong> — ação do botão de ponto, widget/CPF (Android), batida ímpar;
+          <strong>Ciclo e meta de horas</strong>, <strong>Turnos</strong>,
+          <strong>Sugestões de justificativa</strong>, <strong>Feriados e pontos salvos</strong>.</li>
+        <li><strong>Notificações</strong> — sons, fim de turno, horários fixos de entrada/saída,
+          Wi‑Fi (Android), sync automático Clock In, permissões.</li>
+        <li><strong>Atualizações</strong> — auto-update (desktop) e TTL de cache por integração.</li>
+        <li><strong>Estatísticas</strong> — contagem de chamadas às APIs Monday (diagnóstico).</li>
+      </ul>
+
+      <h3>Planos</h3>
+      <p>
+        No plano <strong>Gratuito</strong> algumas funções podem estar limitadas e podem aparecer
+        anúncios / pedido de sync com anúncio. O <strong>Premium</strong> (compra na Play Store
+        no Android) desbloqueia o conjunto completo conforme as regras do projeto.
+      </p>
+
+      <div class="callout">
+        Precisa só do QR da empresa?
+        Use <a class="inline" href="configure.html">configurar organização</a>.
+        Novidades por versão: <a class="inline" href="changelog.html">Changelog</a>.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Simple Monday · <a class="inline" href="index.html">Início</a></p>
+    </div>
+  </footer>
+</body>
+</html>
