@@ -1,5 +1,90 @@
 # Changelog — Simple Monday
 
+## Versão 0.30.3
+
+### Novidades
+
+- **Linux:** “Manter-me conectado” com autenticação do sistema (PolicyKit ou fallback zenity/PAM).
+- Builds **Windows / Android / Linux** passam a rodar a suite de testes unitários antes de compilar.
+
+### Melhorias
+
+- Helper do **Windows Hello** empacotado no build PyInstaller (e resolvido corretamente no app compilado).
+- Credenciais Supabase embutidas no build Windows a partir do `.env` (igual APK/Linux).
+- Site: removido aviso de teste fechado / grupo Google; secção de recursos com agenda do celular e apontamento/ponto locais.
+
+### Correções
+
+- Subitens sem duração no Monday passam a aparecer no apontamento (API interna omite colunas vazias — o app completa a partir dos metadados do board).
+
+## Versão 0.30.2
+
+### Melhorias
+
+- Fluxo de compra Play (cartão e Pix): confirmação/`acknowledge` no servidor para o Premium não cair após o prazo do Google.
+- Banner de plano gratuito no calendário atualiza ao ativar o Premium (sem precisar reiniciar o app).
+- Mensagens mais claras enquanto a compra está a ser verificada / Pix pendente.
+
+### Correções
+
+- Tratamento de erro ao atualizar entitlements na conta.
+- Reconhecimento de assinaturas Play mais robusto no backend (RTDN / verify-play-purchase).
+
+## Versão 0.30.0
+
+### Novidades
+
+- Conta **Simple Monday** (e-mail/senha e Google): login, registo e sessão persistente.
+- Planos **Free / Premium** com Google Play Billing, restauro de compras e sincronização de entitlements (Supabase).
+- **Windows Hello** e biometria/PIN no Android para “Manter-me conectado”.
+- Anúncios (AdMob) no plano free, com gate antes de sync forçado.
+
+### Melhorias
+
+- Configurações → Conta: estado do plano, assinar/restaurar e gestão da sessão.
+- Organização e onboarding alinhados ao fluxo de autenticação.
+
+## Versão 0.29.0
+
+### Novidades
+
+- Monday **sem obrigatoriedade do token** da API pública: basta e-mail e senha da conta Monday (API interna) para sincronizar, apontar e usar o relógio.
+- Fluxo de ligação ao Monday simplificado — o token público passa a ser opcional.
+
+### Melhorias
+
+- App passa a funcionar de forma estável só com a API interna do Monday (sem depender da GraphQL pública).
+
+## Versão 0.27.1
+
+### Correções
+
+- Ajuste fino na shell após a divisão do módulo de calendário.
+
+## Versão 0.27.0
+
+### Melhorias
+
+- Calendário e settings **divididos em módulos** (UI e serviços), com manutenção e builds mais estáveis.
+- Serviço de calendário e de settings reorganizados (`services/calendar/*`, `services/settings/*`).
+
+## Versão 0.26.0
+
+### Novidades
+
+- Diagnóstico e testes de performance na troca de dia no calendário.
+- Loading em ecrã completo mais consistente na arranque e autenticação de fluxos.
+
+### Melhorias
+
+- Calendário mais responsivo (menos trabalho na thread da UI ao mudar de dia).
+- Rede: detecção de erros de rede refinada.
+- QR / organização: melhorias no serviço de leitura e configuração.
+
+### Correções
+
+- Estabilidade geral na shell e no calendário após as otimizações de 0.25.x.
+
 ## Versão 0.24.0
 
 ### Novidades
