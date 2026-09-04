@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmar conta — Simple Monday</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --accent-primary: #6366F1;
+      --accent-secondary: #06B6D4;
+      --accent-green: #10B981;
+      --accent-red: #F87171;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --card-border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, sans-serif; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 4rem;
+      text-align: center;
+    }
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-bottom: 0.65rem;
+      letter-spacing: -0.02em;
+    }
+    .lead { color: var(--text-muted); margin-bottom: 1.75rem; font-size: 0.98rem; }
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem 1.25rem;
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .status-ok { color: var(--accent-green); font-weight: 600; margin-bottom: 0.5rem; }
+    .status-err { color: var(--accent-red); font-weight: 600; margin-bottom: 0.5rem; }
+    .status-wait { color: var(--accent-secondary); font-weight: 600; margin-bottom: 0.5rem; }
+    .card p { color: var(--text-muted); font-size: 0.92rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      margin-top: 0.65rem;
+    }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+    }
+    .hint {
+      margin-top: 1.5rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    a.muted { color: var(--accent-secondary); text-decoration: none; }
+    a.muted:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="logo" src="icon.png" alt="Simple Monday">
+    <h1 id="title">A confirmar a conta…</h1>
+    <p class="lead" id="lead">Aguarde um momento enquanto validamos o link do e-mail.</p>
+
+    <div class="card">
+      <div id="status" class="status-wait">A processar</div>
+      <p id="detail">Se esta página ficou aberta sozinha, pode fechar e abrir o app Simple Monday.</p>
+    </div>
+
+    <a class="btn" id="open-app" href="simplemonday://app/auth/callback">Abrir o Simple Monday</a>
+    <a class="btn secondary" href="https://play.google.com/store/apps/details?id=com.gfsolutions.simplemonday" target="_blank" rel="noopener noreferrer">Google Play</a>
+    <a class="btn secondary" href="index.html">Voltar ao site</a>
+
+    <p class="hint">
+      Problemas? Veja o
+      <a class="muted" href="configure.html">guia de configuração</a>
+      ou volte a pedir o e-mail no app.
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      var title = document.getElementById('title');
+      var lead = document.getElementById('lead');
+      var statusEl = document.getElementById('status');
+      var detail = document.getElementById('detail');
+      var openApp = document.getElementById('open-app');
+
+      function paramsFrom(search, hash) {
+        var out = {};
+        function add(raw) {
+          if (!raw) return;
+          raw.replace(/^\?|^#/, '').split('&').forEach(function (pair) {
+            if (!pair) return;
+            var i = pair.indexOf('=');
+            var k = decodeURIComponent((i >= 0 ? pair.slice(0, i) : pair).replace(/\+/g, ' '));
+            var v = decodeURIComponent((i >= 0 ? pair.slice(i + 1) : '').replace(/\+/g, ' '));
+            if (k) out[k] = v;
+          });
+        }
+        add(search);
+        add(hash);
+        return out;
+      }
+
+      var p = paramsFrom(window.location.search, window.location.hash);
+      var err = p.error || p.error_code || '';
+      var errDesc = p.error_description || p.error_description_ || '';
+      var type = (p.type || '').toLowerCase();
+      var hasSession = !!(p.access_token || p.code || p.token_hash || p.refresh_token);
+
+      // Deep link com o mesmo query/hash para o app (desktop/Android) quando houver tokens.
+      if (hasSession && !err) {
+        var qs = window.location.search || '';
+        var hs = window.location.hash || '';
+        openApp.href = 'simplemonday://app/auth/callback' + qs + hs;
+      }
+
+      if (err) {
+        title.textContent = 'Não foi possível confirmar';
+        lead.textContent = 'O link pode ter expirado ou já ter sido usado.';
+        statusEl.className = 'status-err';
+        statusEl.textContent = 'Falha na confirmação';
+        detail.textContent = errDesc
+          ? decodeURIComponent(String(errDesc).replace(/\+/g, ' '))
+          : ('Código: ' + err + '. Peça um novo e-mail no app e tente de novo.');
+        return;
+      }
+
+      if (hasSession || type === 'signup' || type === 'email' || type === 'magiclink' || type === 'recovery' || type === 'invite') {
+        var labels = {
+          signup: 'Conta confirmada',
+          email: 'E-mail confirmado',
+          magiclink: 'Link validado',
+          recovery: 'Link de recuperação válido',
+          invite: 'Convite aceite'
+        };
+        title.textContent = labels[type] || 'Tudo certo';
+        lead.textContent = 'Pode fechar esta página e entrar no Simple Monday com o seu e-mail e senha.';
+        statusEl.className = 'status-ok';
+        statusEl.textContent = 'Confirmado com sucesso';
+        detail.textContent = 'Se o app estiver instalado, use o botão abaixo. No PC, abra o Simple Monday e faça login.';
+        // Tenta abrir o app uma vez (silencioso se falhar).
+        try {
+          var iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = openApp.href;
+          document.body.appendChild(iframe);
+          setTimeout(function () { iframe.remove(); }, 1500);
+        } catch (e) {}
+        return;
+      }
+
+      // Sem parâmetros: página aberta diretamente / Site URL sem tokens.
+      title.textContent = 'Confirmação de conta';
+      lead.textContent = 'Use o link enviado por e-mail. Se já clicou nele, a conta deve estar ativa.';
+      statusEl.className = 'status-ok';
+      statusEl.textContent = 'Pronto para entrar';
+      detail.textContent = 'Abra o Simple Monday e faça login com o e-mail que usou no cadastro.';
+    })();
+  </script>
+</body>
+</html>
